@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 160">
+  <defs>
+    <linearGradient id="steel" x1="0" y1="0" x2="0.08" y2="1"><stop stop-color="#353b43"/><stop offset=".12" stop-color="#8c959e"/><stop offset=".32" stop-color="#d5dde1"/><stop offset=".48" stop-color="#f7fbfc"/><stop offset=".52" stop-color="#a3adb5"/><stop offset=".78" stop-color="#727e89"/><stop offset="1" stop-color="#cbd4d9"/></linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#aeb9c2"/><stop offset=".65" stop-color="#eff6f9"/><stop offset="1" stop-color="#788895"/></linearGradient>
+    <linearGradient id="grip" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#151a20"/><stop offset=".4" stop-color="#454b52"/><stop offset="1" stop-color="#0c1015"/></linearGradient>
+    <linearGradient id="glint"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".48" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset=".53" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <!-- 一把超长、单面开刃的钢制砍刀，而非发光玩具剑。 -->
+  <path d="M2 7 2260 7Q2294 10 2307 77L2321 101V124L74 154Q12 137 2 7Z" fill="url(#steel)" stroke="#343b42" stroke-width="2"/>
+  <path d="M2 7 2259 7 2250 13 9 13Z" fill="#edf2f4" opacity=".8"/>
+  <path d="M17 77Q35 124 78 135L2318 111 2321 124 74 154Q21 137 17 77Z" fill="url(#edge)"/>
+  <path d="m78 135 2228-24" fill="none" stroke="#f7fcff" stroke-width="1.5"/>
+  <path d="M16 26H2259M22 35H2261M29 42H2267M38 69H2280M47 83H2288M61 110H2294" stroke="#1e303e" opacity=".11" stroke-width=".7"/>
+  <path d="m359 21 89 91m274-96 31 99m344-100 48 99m678-99 52 95" stroke="#fff" stroke-width=".7" opacity=".24"/>
+  <path d="M2 7 2260 7Q2294 10 2307 77L2321 101V124L74 154Q12 137 2 7Z" fill="url(#glint)"/>
+  <rect x="2319" y="98" width="13" height="29" rx="2" fill="#a99b71" stroke="#4b4a3e"/>
+  <path d="M2332 103 2396 104V120L2332 122Z" fill="url(#grip)" stroke="#11171b" stroke-width="1.5"/>
+  <path d="m2338 104 7 17m2-17 7 16m2-16 7 16m2-16 7 16m2-16 7 16m2-16 7 16" stroke="#71747a" stroke-width="2" opacity=".7"/>
+  <rect x="2393" y="101" width="6" height="22" rx="2" fill="#818a8d"/>
+</svg>

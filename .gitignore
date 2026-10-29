@@ -1,0 +1,29 @@
+node_modules/
+npm-debug.log*
+
+# 构建产物
+dist/
+out/
+build/
+
+# 运行时与测试临时数据
+.tmp/
+.smoke/
+
+# 本地 npm 缓存（离线安装时可能临时使用）
+.npm-cache/
+
+# 编辑器与系统
+.vscode/
+.idea/
+*.log
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# 发布附件单独上传 Release，不把大文件和参考原图写进 Git 历史
+submission/*.zip
+docs/references/
+.env
+.env.*
+!.env.example

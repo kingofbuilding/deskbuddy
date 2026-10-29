@@ -1,0 +1,36 @@
+* {box-sizing:border-box;}
+html,body {margin:0;width:100%;height:100%;overflow:hidden;background:transparent;pointer-events:none;}
+.fx-root,.fx-scene {position:fixed;inset:0;pointer-events:none;}
+.fx-scene {display:none;--life:3800ms;--elapsed:0ms;}
+.fx-scene.active {display:block;animation:scene-life var(--life) var(--elapsed) linear both;}
+.fx-cleaver-rig {position:absolute;left:var(--hand-x);top:var(--hand-y);width:0;height:0;transform-origin:0 0;animation:forty-meter-swing var(--life) var(--elapsed) cubic-bezier(.2,.7,.2,1) both;}
+.fx-cleaver {position:absolute;width:260vmax;height:17.3333vmax;max-width:none;right:-4.3333vmax;top:-12.1333vmax;filter:drop-shadow(0 5px 3px #00000025);}
+.fx-steel-sweep {position:absolute;left:-20%;top:var(--hand-y);width:140%;height:1px;background:#ffffff99;opacity:0;transform:rotate(-12deg);animation:steel-sweep var(--life) var(--elapsed) linear both;}
+.glass-fracture {position:absolute;inset:0;width:100%;height:100%;overflow:hidden;}
+.glass-depth path,.glass-edge path {stroke-dasharray:1;stroke-dashoffset:1;animation:fracture-draw 180ms calc(var(--fracture-delay) + var(--impact-delay,400ms)) cubic-bezier(.05,.9,.2,1) forwards;}
+.glass-facets {animation:glass-surface 280ms var(--impact-delay,400ms) both;}
+.glass-chips {animation:glass-surface 90ms var(--impact-delay,400ms) both;}
+.fx-particles {position:absolute;inset:0;}
+.fx-particle {position:absolute;left:var(--x);top:var(--y);width:var(--size);height:calc(var(--size)*1.4);background:var(--color);opacity:0;border-radius:3px;animation:particle-flight var(--travel) var(--delay) cubic-bezier(.12,.6,.4,1) both;}
+.fx-particle.star {clip-path:polygon(50% 0%,61% 33%,98% 35%,70% 58%,80% 96%,50% 74%,20% 96%,30% 58%,2% 35%,39% 33%);height:var(--size);}
+@keyframes scene-life {0%,100%{opacity:0}4%,88%{opacity:1}}
+@keyframes fracture-draw {to{stroke-dashoffset:0}}
+@keyframes glass-surface {from{opacity:0}to{opacity:1}}
+@keyframes particle-flight {0%{opacity:0;transform:translate(0,0) rotate(0) scale(.1)}10%,70%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(1)}}
+@keyframes forty-meter-swing {
+  0%{transform:rotate(65deg);opacity:0}
+  9%{transform:rotate(32deg);opacity:1}
+  22%,43%{transform:rotate(14deg)}
+  49%{transform:rotate(13deg)}
+  58%{transform:rotate(-30deg)}
+  64%{transform:rotate(-28deg)}
+  81%,100%{transform:rotate(14deg);opacity:1}
+}
+@keyframes steel-sweep {0%,51%,64%,100%{opacity:0}56%{opacity:1;transform:rotate(-12deg) scaleX(.2)}60%{opacity:0;transform:rotate(-12deg) scaleX(1)}}
+@media(prefers-reduced-motion:reduce) {
+ .fx-scene.active {animation:none;}
+ .fx-cleaver-rig {animation:none;transform:rotate(14deg);}
+ .glass-depth path,.glass-edge path {animation:none;stroke-dashoffset:0;}
+ .glass-facets,.glass-chips {animation:none;}
+ .fx-particle,.fx-steel-sweep {display:none;}
+}

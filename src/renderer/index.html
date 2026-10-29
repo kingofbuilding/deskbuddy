@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-ready="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <title>DeskBuddy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 宠物主窗口 -->
+  <main id="pet-view" class="pet-stage" data-mode="pet" data-focusing="false" aria-label="DeskBuddy 桌面宠物">
+    <div id="focus-pill" class="focus-pill" role="status" aria-live="polite">
+      <span class="dot"></span>
+      <span id="focus-pill-text">25:00</span>
+    </div>
+
+    <div id="dnd-badge" class="dnd-badge">免打扰</div>
+
+    <div id="pet" class="pet" data-state="idle" role="button" tabindex="0"
+         aria-label="宠物，单击打开快捷菜单，双击打开任务面板">
+      <svg class="focus-ring" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#5ff0e0" />
+            <stop offset="100%" stop-color="#9d86ff" />
+          </linearGradient>
+        </defs>
+        <circle class="ring-track" cx="50" cy="50" r="46" />
+        <circle class="ring-progress" cx="50" cy="50" r="46"
+                stroke-dasharray="289.03" stroke-dashoffset="289.03" />
+      </svg>
+
+      <img class="pet-sprite" data-sprite="idle" src="assets/girl-idle.png" alt="" draggable="false" />
+      <img class="pet-sprite" data-sprite="focus" src="assets/girl-focus.png" alt="" draggable="false" />
+      <img class="pet-sprite" data-sprite="happy" src="assets/girl-happy.png" alt="" draggable="false" />
+      <img class="pet-sprite" data-sprite="angry" src="assets/girl-angry.png" alt="" draggable="false" />
+      <img class="pet-sprite" data-sprite="slash" src="assets/girl-slash.png" alt="" draggable="false" />
+      <img class="pet-sprite" data-sprite="dnd" src="assets/girl-dnd.png" alt="" draggable="false" />
+      <img id="pet-life-frame" class="pet-life-frame" src="assets/girl-blink.png" hidden alt="" draggable="false" />
+    </div>
+
+    <div id="state-chip" class="state-chip">待机</div>
+
+    <!-- 气泡 -->
+    <section id="bubble" class="bubble" role="dialog" aria-live="assertive" aria-label="宠物提示">
+      <button id="bubble-close" class="bubble-close" title="关闭" aria-label="关闭提示">✕</button>
+      <div id="bubble-title" class="bubble-title"></div>
+      <div id="bubble-text" class="bubble-text"></div>
+      <div id="bubble-actions" class="bubble-actions"></div>
+    </section>
+
+    <!-- 快捷菜单 -->
+    <nav id="quick-menu" class="quick-menu" aria-label="快捷菜单">
+      <div class="menu-heading"><span>鱼鱼的小菜单</span><button data-action="close-menu" aria-label="关闭快捷菜单">收起 ✕</button></div>
+      <button class="menu-item" data-action="open-tasks">
+        <span class="mi-icon" aria-hidden="true">☑</span>
+        <span class="mi-label">今日任务</span>
+        <span class="mi-hint" id="menu-task-count">0</span>
+      </button>
+      <button class="menu-item" data-action="start-focus">
+        <span class="mi-icon" aria-hidden="true">◎</span>
+        <span class="mi-label">开始专注</span>
+        <span class="mi-hint" id="menu-focus-hint">25 分</span>
+      </button>
+      <button class="menu-item" data-action="open-companion">
+        <span class="mi-icon" aria-hidden="true">☺</span>
+        <span class="mi-label">陪伴模式</span>
+      </button>
+      <button class="menu-item" data-action="open-settings">
+        <span class="mi-icon" aria-hidden="true">⚙</span>
+        <span class="mi-label">设置与休息</span>
+      </button>
+      <div class="menu-sep"></div>
+      <button class="menu-item" data-action="effect-reminder">
+        <span class="mi-icon" aria-hidden="true">🔔</span>
+        <span class="mi-label">鱼鱼提醒（本体动作）</span>
+        <span class="mi-hint">预览</span>
+      </button>
+      <button class="menu-item" data-action="effect-slash">
+        <span class="mi-icon" aria-hidden="true">🗡</span>
+        <span class="mi-label">抓到你了</span>
+        <span class="mi-hint">手动演示</span>
+      </button>
+      <button class="menu-item" data-action="effect-crack">
+        <span class="mi-icon" aria-hidden="true">💥</span>
+        <span class="mi-label">裂屏特效</span>
+        <span class="mi-hint">手动演示</span>
+      </button>
+      <div class="menu-sep"></div>
+      <button class="menu-item" data-action="toggle-dnd">
+        <span class="mi-icon" aria-hidden="true">🌙</span>
+        <span class="mi-label">免打扰</span>
+        <span class="menu-switch" id="dnd-switch" data-on="false"></span>
+      </button>
+      <button class="menu-item" data-action="hide-pet">
+        <span class="mi-icon" aria-hidden="true">—</span>
+        <span class="mi-label">收起到任务栏</span>
+      </button>
+      <button class="menu-item" data-action="quit" data-danger="true">
+        <span class="mi-icon" aria-hidden="true">✕</span>
+        <span class="mi-label">退出 DeskBuddy</span>
+      </button>
+    </nav>
+
+    <!-- 特效层 -->
+    <div id="effects" class="effects-layer" aria-hidden="true">
+      <div id="slash-fx" class="slash-fx">
+        <!-- 漫画集中线：从中心放射 -->
+        <div class="fx-speedlines"></div>
+        <!-- 全屏白闪 -->
+        <div class="slash-flash"></div>
+        <!-- 冲击波 -->
+        <div class="slash-shockwave"></div>
+        <!-- 刀光弧 -->
+        <div class="slash-arc"></div>
+        <!-- 斩击轨迹 -->
+        <div class="slash-streak"></div>
+        <!-- 超大拟声词 -->
+        <!-- 飞散的刀光碎片 -->
+        <div class="slash-spark" style="--sx:18%; --sy:30%; --sa:-40deg"></div>
+        <div class="slash-spark" style="--sx:80%; --sy:22%; --sa:35deg"></div>
+        <div class="slash-spark" style="--sx:70%; --sy:70%; --sa:20deg"></div>
+        <div class="slash-spark" style="--sx:25%; --sy:75%; --sa:-25deg"></div>
+        <div class="slash-spark" style="--sx:50%; --sy:15%; --sa:80deg"></div>
+      </div>
+
+      <div id="crack-fx" class="crack-fx"><svg class="glass-fracture" aria-hidden="true"></svg></div>
+
+      <div id="confetti-fx" class="confetti-fx">
+        <div class="fx-burst"></div>
+        <div class="confetti-word">完成任务！</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 面板窗口（同一个 HTML，用 query 参数区分） -->
+  <section id="panel-view" class="panel" data-panel="" hidden>
+    <header class="panel-head">
+      <div class="panel-title">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span id="panel-title-text">今日任务</span>
+      </div>
+      <button id="panel-close" class="icon-btn" title="关闭" aria-label="关闭面板">✕</button>
+    </header>
+
+    <div class="panel-body" id="panel-body">
+      <!-- 任务面板 -->
+      <div class="panel-screen" data-screen="tasks">
+        <form class="task-form" id="task-form" autocomplete="off">
+          <input id="task-input" class="text-input" type="text" maxlength="80"
+                 placeholder="添加一个今天要完成的任务…" aria-label="任务标题" />
+          <button class="btn-add" type="submit" title="添加任务">＋</button>
+        </form>
+        <div class="form-error" id="task-error" role="alert"></div>
+
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span id="task-progress-text">0 / 0</span>
+            <span id="task-progress-pct">0%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="task-progress-fill"></div></div>
+        </div>
+
+        <div class="section-label">待完成</div>
+        <ul class="task-list" id="task-list-pending" aria-label="待完成任务"></ul>
+
+        <div class="section-label" id="done-label" hidden>已完成</div>
+        <ul class="task-list" id="task-list-done" aria-label="已完成任务"></ul>
+
+        <div class="empty-state" id="task-empty" hidden>
+          <span class="emoji" aria-hidden="true">🪄</span>
+          <div class="line1">今天还没有添加任务。</div>
+          <div class="line2">先写一件小事，让今天有个开始。</div>
+        </div>
+      </div>
+
+      <!-- 专注面板 -->
+      <div class="panel-screen" data-screen="focus" hidden>
+        <div class="focus-card">
+          <div class="focus-clock" id="focus-clock">25:00</div>
+          <div class="focus-label" id="focus-label">准备开始</div>
+          <div class="focus-task" id="focus-task"></div>
+          <div class="focus-actions">
+            <button class="btn" data-tone="primary" id="focus-primary">开始专注</button>
+            <button class="btn" id="focus-secondary" disabled>暂停</button>
+            <button class="btn" data-tone="ghost" id="focus-complete">标记当前任务完成</button>
+            <button class="btn" data-tone="ghost" id="focus-stop" disabled>结束专注</button>
+          </div>
+          <div class="duration-row" id="duration-row" aria-label="专注时长"></div>
+        </div>
+
+        <div class="section-label">专注设置</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">休息提醒</div>
+            <div class="setting-desc">每隔一段时间提醒你站起来活动</div>
+          </div>
+          <button class="switch" id="break-toggle" data-on="true" aria-label="开关休息提醒"></button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">休息间隔</div>
+            <div class="setting-desc">距离上次确认休息的时间</div>
+          </div>
+          <div class="stepper">
+            <button data-step="-5" data-target="breakReminderMinutes" aria-label="减少">−</button>
+            <span class="value" id="break-interval-value">50 分</span>
+            <button data-step="5" data-target="breakReminderMinutes" aria-label="增加">＋</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">稍后提醒延迟</div>
+            <div class="setting-desc">点“稍后提醒”时延后多久</div>
+          </div>
+          <div class="stepper">
+            <button data-step="-1" data-target="snoozeMinutes" aria-label="减少">−</button>
+            <span class="value" id="snooze-value">10 分</span>
+            <button data-step="1" data-target="snoozeMinutes" aria-label="增加">＋</button>
+          </div>
+        </div>
+
+        <div class="section-label">今日数据</div>
+        <div class="stat-grid">
+          <div class="stat-cell"><div class="num" id="stat-focus">0</div><div class="lbl">专注轮次</div></div>
+          <div class="stat-cell"><div class="num" id="stat-done">0</div><div class="lbl">完成任务</div></div>
+          <div class="stat-cell"><div class="num" id="stat-streak">0</div><div class="lbl">连续天数</div></div>
+        </div>
+      </div>
+
+      <!-- 设置面板 -->
+      <div class="panel-screen" data-screen="settings" hidden>
+        <div class="section-label">提醒</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">免打扰</div>
+            <div class="setting-desc">暂停普通提醒与音效，用户主动操作仍然响应</div>
+          </div>
+          <button class="switch" id="dnd-setting" data-on="false" aria-label="开关免打扰"></button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">音效</div>
+            <div class="setting-desc">提示音、完成音和特效音</div>
+          </div>
+          <button class="switch" id="sound-setting" data-on="true" aria-label="开关音效"></button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">动画特效</div>
+            <div class="setting-desc">关闭后不再播放砍刀、裂屏和撒花</div>
+          </div>
+          <button class="switch" id="effects-setting" data-on="true" aria-label="开关动画特效"></button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">随机闲聊</div>
+            <div class="setting-desc">空闲时宠物偶尔说一句话</div>
+          </div>
+          <button class="switch" id="chatter-setting" data-on="true" aria-label="开关随机闲聊"></button>
+        </div>
+
+
+        <div class="section-label">住在桌面上的鱼鱼</div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">日常小动作</div><div class="setting-desc">眨眼、挥手、歪头，鼠标靠近会打招呼</div></div><button class="switch" id="life-setting" data-on="true" aria-label="开关日常动作"></button></div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">全桌面散步</div><div class="setting-desc">娱乐、空闲或任务做完时到处走走；开始工作会回家，拖动可打断</div></div><button class="switch" id="wander-setting" data-on="true" aria-label="开关桌面散步"></button></div>
+        <div class="section-label">主动关心你</div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">喝水与久坐关怀</div><div class="setting-desc">按实际使用时间累计；离开 3 分钟重置久坐时间</div></div><button class="switch" id="health-setting" data-on="true" aria-label="开关健康关怀"></button></div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">喝水间隔</div><div class="setting-desc">喝过后重新计时，也可以稍后提醒</div></div><div class="stepper"><button data-step="-5" data-target="waterReminderMinutes">−</button><span class="value" id="water-interval-value">30 分</span><button data-step="5" data-target="waterReminderMinutes">＋</button></div></div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">连续使用多久起身</div></div><div class="stepper"><button data-step="-5" data-target="breakReminderMinutes">−</button><span class="value" id="rest-active-value">50 分</span><button data-step="5" data-target="breakReminderMinutes">＋</button></div></div>
+        <div class="initiative-status" id="initiative-status" role="status">正在了解你的活动节奏…</div>
+        <div class="section-label">有任务没做，鱼鱼来抓你</div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">游戏与娱乐督促</div><div class="setting-desc">只在清单未完成、娱乐应用正在前台时触发</div></div><button class="switch" id="game-guard-setting" data-on="false" aria-label="开关娱乐督促"></button></div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">连续娱乐多久提醒</div></div><div class="stepper"><button data-step="-1" data-target="gameGraceMinutes">−</button><span class="value" id="game-grace-value">10 分</span><button data-step="1" data-target="gameGraceMinutes">＋</button></div></div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">自动砍刀与裂屏</div><div class="setting-desc">有任务没做、娱乐到点后，鱼鱼跑过来交替出招；完成任务会撒花</div></div><button class="switch" id="guard-effects-setting" data-on="true" aria-label="开关自动娱乐特效"></button></div>
+        <label class="setting-name" for="guard-mode">鱼鱼怎么抓你</label>
+        <select id="guard-mode" class="text-input initiative-input"><option value="visit">跑到面前挡一下，再自己回去</option><option value="minimize">跑过来，并暂时最小化娱乐窗口</option></select>
+        <label class="setting-name" for="entertainment-apps">娱乐应用的进程文件名</label>
+        <div class="setting-desc">每行一个 .exe；浏览器加入后，工作网页也会算娱乐。不会读取网页、窗口标题或聊天内容。</div>
+        <textarea id="entertainment-apps" class="text-input initiative-input" rows="4" spellcheck="false" aria-label="娱乐应用列表"></textarea>
+        <div class="initiative-buttons"><button class="btn" id="save-entertainment-apps">保存应用列表</button><button class="btn" data-add-app="chrome.exe">加 Chrome</button><button class="btn" data-add-app="msedge.exe">加 Edge</button></div>
+        <div class="setting-desc">关闭窗口由你点按钮后确认；自动督促可选最小化，随时能从任务栏恢复。Esc 让鱼鱼退回去。</div>
+        <div class="setting-desc">自动督促按名单匹配前台应用，不识别视频画面。名单中的播放器即使不碰键鼠也计时，暂停播放也会算；锁屏和休眠不计时。默认每次出招间隔 15 分钟，免打扰时暂停。</div>
+        <div class="initiative-buttons"><button class="btn" data-initiative="water">演示递水</button><button class="btn" data-initiative="task_nudge">演示抓任务</button><button class="btn" data-life="wave">打个招呼</button></div>
+
+        <div class="section-label">窗口与找回</div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">找回桌宠</div><div class="setting-desc" id="recall-help">点击任务栏图标恢复；Ctrl+Alt+P 复原大小和位置</div></div><button class="btn" id="recover-pet">找回</button></div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">窗口置顶</div>
+            <div class="setting-desc">关闭后宠物会被其他窗口遮挡</div>
+          </div>
+          <button class="switch" id="always-top-setting" data-on="true" aria-label="开关窗口置顶"></button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">宠物大小</div>
+            <div class="setting-desc">75% – 160%</div>
+          </div>
+          <div class="stepper">
+            <button data-step="-10" data-target="petScale" aria-label="缩小">−</button>
+            <span class="value" id="scale-value">100%</span>
+            <button data-step="10" data-target="petScale" aria-label="放大">＋</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">开机启动</div>
+            <div class="setting-desc" id="launch-desc">安装版可用；开发模式不注册</div>
+          </div>
+          <button class="switch" id="launch-setting" data-on="false" aria-label="开关开机启动"></button>
+        </div>
+
+        <div class="section-label">专注时长</div>
+        <div class="duration-row" id="settings-duration-row" aria-label="默认专注时长"></div>
+
+        <div class="section-label">数据</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">数据位置</div>
+            <div class="setting-desc" id="data-dir">—</div>
+          </div>
+          <button class="btn" id="open-data-folder">打开</button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">手动触发特效</div>
+            <div class="setting-desc">演示用，立即播放一次</div>
+          </div>
+        </div>
+        <div class="talk-grid">
+          <button class="btn" data-effect="slash">砍刀</button>
+          <button class="btn" data-effect="crack">裂屏</button>
+          <button class="btn" data-effect="confetti">撒花</button>
+        </div>
+      </div>
+
+      <!-- 陪伴面板 -->
+      <div class="panel-screen" data-screen="companion" hidden>
+        <div class="companion-hero">
+          <div class="companion-bubble" id="companion-bubble">今天感觉怎么样？</div>
+          <div class="avatar"><img src="assets/girl-happy.png" alt="" /></div>
+          <div class="greeting" id="companion-greeting">我在呢。</div>
+        </div>
+        <div class="talk-grid">
+          <button class="btn" data-talk="joke">讲个冷笑话</button>
+          <button class="btn" data-talk="praise">夸夸我</button>
+          <button class="btn" data-talk="chat">随便聊聊</button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">陪伴模式</div>
+            <div class="setting-desc">让宠物保持陪伴状态，减少打断</div>
+          </div>
+          <button class="switch" id="companion-switch" data-on="false" aria-label="开关陪伴模式"></button>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-cell"><div class="num" id="c-stat-done">0</div><div class="lbl">今日完成</div></div>
+          <div class="stat-cell"><div class="num" id="c-stat-focus">0</div><div class="lbl">专注轮次</div></div>
+          <div class="stat-cell"><div class="num" id="c-stat-minutes">0</div><div class="lbl">专注分钟</div></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="panel-foot">
+      <div style="display:flex;gap:7px;">
+        <button class="btn" data-tone="primary" id="panel-primary" style="flex:1 1 auto;">开始专注</button>
+        <button class="btn" data-tone="ghost" id="panel-secondary" style="flex:0 0 auto;">关闭</button>
+      </div>
+    </footer>
+  </section>
+
+  <div class="toast-host" id="toast-host" aria-live="polite"></div>
+
+  <!-- 核心逻辑：普通脚本按依赖顺序加载，渲染进程不启用 Node 集成 -->
+  <script src="core/util.js"></script>
+  <script src="core/settings.js"></script>
+  <script src="core/tasks.js"></script>
+  <script src="core/timers.js"></script>
+  <script src="core/pet-state.js"></script>
+  <script src="core/reminder-queue.js"></script>
+  <script src="core/copy.js"></script>
+  <script src="core/stats.js"></script>
+  <script src="core/initiative.js"></script>
+  <script src="core/app-state.js"></script>
+
+  <script src="glass-fracture.js"></script>
+  <script src="effects.js"></script>
+  <script src="audio.js"></script>
+  <script src="ui.js"></script>
+  <script src="panels.js"></script>
+  <script src="pet-life.js"></script>
+  <script src="pet-performance.js"></script>
+  <script src="pet-input.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

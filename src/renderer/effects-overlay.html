@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none';" />
+  <title>DeskBuddy FX</title>
+  <link rel="stylesheet" href="effects-overlay.css" />
+</head>
+<body>
+  <!-- 只有作用在桌面上的物件与粒子。角色始终只在桌宠窗口里。 -->
+  <div id="fx-root" class="fx-root" aria-hidden="true">
+    <div id="fx-slash" class="fx-scene">
+      <div class="fx-cleaver-rig"><img class="fx-cleaver" src="assets/giant-cleaver.svg" alt="" /></div>
+      <div class="fx-steel-sweep"></div>
+    </div>
+    <div id="fx-crack" class="fx-scene"><svg class="glass-fracture" aria-hidden="true"></svg></div>
+    <div id="fx-confetti" class="fx-scene"><div class="fx-particles" id="fx-confetti-host"></div></div>
+    <div id="fx-reminder" class="fx-scene"></div>
+  </div>
+  <script src="glass-fracture.js"></script>
+  <script src="effects.js"></script>
+  <script src="effects-overlay.js"></script>
+</body>
+</html>

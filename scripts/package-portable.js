@@ -1,0 +1,16 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const output=path.join(root,'dist','submission-'+Date.now(),'DeskBuddy');
+const runtime=path.join(root,'node_modules','electron','dist');
+fs.mkdirSync(output,{recursive:true});
+for(const entry of fs.readdirSync(runtime))fs.cpSync(path.join(runtime,entry),path.join(output,entry),{recursive:true});
+fs.renameSync(path.join(output,'electron.exe'),path.join(output,'DeskBuddy.exe'));
+if(fs.existsSync(path.join(output,'electron_wer.dll')))fs.renameSync(path.join(output,'electron_wer.dll'),path.join(output,'DeskBuddy_wer.dll'));
+const application=path.join(output,'resources','app');fs.mkdirSync(application,{recursive:true});
+fs.cpSync(path.join(root,'src'),path.join(application,'src'),{recursive:true});
+fs.writeFileSync(path.join(application,'package.json'),JSON.stringify({name:'deskbuddy',productName:'DeskBuddy',version:'1.3.0',description:'鲸鱼娘桌面宠物与专注提醒',main:'src/main/main.js',license:'MIT'},null,2));
+fs.copyFileSync(path.join(root,'submission','运行说明.txt'),path.join(output,'运行说明.txt'));
+fs.writeFileSync(path.join(output,'兼容启动.cmd'),'@echo off\r\nset "ELECTRON_RUN_AS_NODE="\r\nstart "" "%~dp0DeskBuddy.exe" --no-sandbox --disable-gpu\r\nexit /b\r\n');
+fs.writeFileSync(path.join(root,'.tmp','portable-build.json'),JSON.stringify({output,executable:path.join(output,'DeskBuddy.exe'),version:'1.3.0'},null,2));
+console.log(output);

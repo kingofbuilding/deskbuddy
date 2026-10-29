@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="蓝鲸鱼鱼 · 认真学习">
+  <defs><radialGradient id="body" cx="34%" cy="24%" r="85%"><stop stop-color="#96dcff"/><stop offset=".48" stop-color="#5cafff"/><stop offset="1" stop-color="#3675df"/></radialGradient><linearGradient id="belly" x2="0" y2="1"><stop stop-color="#fffef7"/><stop offset="1" stop-color="#dff4ff"/></linearGradient></defs>
+  <ellipse cx="97" cy="187" rx="59" ry="7" fill="#1e4779" opacity=".18"/>
+  <g stroke="#306ac4" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M150 143q17 2 24-16q-14-10-8-29q16 1 20 19q6-12 12-11q2 23-16 28q-7 23-27 25" fill="#65b5ff"/>
+    <ellipse cx="72" cy="179" rx="14" ry="8" fill="#4b91e9" transform="rotate(-9 72 179)"/><ellipse cx="119" cy="179" rx="14" ry="8" fill="#4b91e9" transform="rotate(9 119 179)"/>
+    <path d="M24 111C20 73 39 46 74 43q12-15 24-11q-6 5-7 10c41-3 71 21 74 59c4 43-21 76-69 77c-45 1-70-24-72-67Z" fill="url(#body)"/>
+  </g>
+  <path d="M38 123c5-14 18-14 29-10q25 10 52-1c18-7 30 0 31 16c-3 30-21 43-54 44c-32 0-52-15-58-49Z" fill="url(#belly)"/>
+  <path d="M42 74q8-18 29-21" fill="none" stroke="#ddf5ff" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+  <ellipse cx="70" cy="101" rx="9" ry="12" fill="#173d70"/><ellipse cx="68" cy="96" rx="3" ry="4" fill="white"/><circle cx="73" cy="106" r="2" fill="#8edfff"/><ellipse cx="114" cy="101" rx="9" ry="12" fill="#173d70"/><ellipse cx="112" cy="96" rx="3" ry="4" fill="white"/><circle cx="117" cy="106" r="2" fill="#8edfff"/>
+  <ellipse cx="46" cy="119" rx="12" ry="7" fill="#ffabc4" opacity=".85"/><ellipse cx="139" cy="119" rx="12" ry="7" fill="#ffabc4" opacity=".85"/>
+  <path d="M82 122q5 9 11 0q6 9 11 0" fill="none" stroke="#173d70" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M28 130q-18-5-18 7q0 12 23 15" fill="#73c0ff" stroke="#306ac4" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M156 130q18-5 18 7q0 12-23 15" fill="#73c0ff" stroke="#306ac4" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <g fill="none" stroke="#204774" stroke-width="3.5"><rect x="53" y="87" width="34" height="28" rx="10"/><rect x="97" y="87" width="34" height="28" rx="10"/><path d="M87 97h10"/></g><path d="M57 151q18-8 36 2q18-10 36-2v27q-18-7-36 2q-18-9-36-2Z" fill="#ffdc81" stroke="#ba7b35" stroke-width="2.5"/><path d="M93 154v24m-27-17h17m20 0h17m-54 8h17m20 0h17" stroke="#d7a858" stroke-width="2"/>
+  </svg>

@@ -1,0 +1,27 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "reference": "src/renderer/assets/girl-idle.png",
+  "assets": [
+    {
+      "name": "blink",
+      "file": "src/renderer/assets/girl-blink.png",
+      "prompt": "Use case: identity-preserve. Edit the reference transparent sprite to create one additional animation frame for this exact same DeepSeek chibi whale maid girl desktop pet. Preserve the exact navy and cornflower blue hair, fin ears, whale ahoge, headband, blue eyes, round face, navy-white fully covered frilly maid dress and whale apron emblem, white stockings, dark shoes, whale tail, anime cel-shaded lineart and colors. Preserve same full-body scale, pixel alignment, canvas dimensions and transparent margins. Change ONLY her eyelids: gently closed eyes with tiny curved eyelid lines for a natural blink. Keep EXACT original body position, head angle, hands, tail, ahoge, expression, mouth, clothing and every outline. Do not add props or change the silhouette. This frame alternates with the input within 140 ms, so perfect alignment is crucial. Single centered full-body character only, genuine transparent alpha, no text, no symbols, no background, no painted checkerboard."
+    },
+    {
+      "name": "wave",
+      "file": "src/renderer/assets/girl-wave.png",
+      "prompt": "Use case: identity-preserve. Edit the reference transparent sprite to create one additional animation frame for this exact same DeepSeek chibi whale maid girl desktop pet. Preserve the exact navy and cornflower blue hair, fin ears, whale ahoge, headband, blue eyes, round face, navy-white fully covered frilly maid dress and whale apron emblem, white stockings, dark shoes, whale tail, anime cel-shaded lineart and colors. Preserve same full-body scale, pixel alignment, canvas dimensions and transparent margins. She lifts her viewer-left hand beside her face and waves hello, cheerful soft smile, other hand on apron. Keep same foot positions, head position, body height, canvas and tail position. Small friendly greeting pose. Single centered full-body character only, genuine transparent alpha, no text, no symbols, no background, no painted checkerboard."
+    },
+    {
+      "name": "walk_left",
+      "file": "src/renderer/assets/girl-walk_left.png",
+      "prompt": "Use case: identity-preserve. Edit the reference transparent sprite to create one additional animation frame for this exact same DeepSeek chibi whale maid girl desktop pet. Preserve the exact navy and cornflower blue hair, fin ears, whale ahoge, headband, blue eyes, round face, navy-white fully covered frilly maid dress and whale apron emblem, white stockings, dark shoes, whale tail, anime cel-shaded lineart and colors. Preserve same full-body scale, pixel alignment, canvas dimensions and transparent margins. Walking animation frame A, facing front with a slight lean toward the viewer's left. Her left foot steps outward and her right foot is slightly back, arms slightly swinging in opposite directions. Keep exact head size, character height, face, maid costume, hair and whale tail. A tiny lively chibi walking step, not running. Whole body and feet visible. Single centered full-body character only, genuine transparent alpha, no text, no symbols, no background, no painted checkerboard."
+    },
+    {
+      "name": "walk_right",
+      "file": "src/renderer/assets/girl-walk_right.png",
+      "prompt": "Use case: identity-preserve. Edit the reference transparent sprite to create one additional animation frame for this exact same DeepSeek chibi whale maid girl desktop pet. Preserve the exact navy and cornflower blue hair, fin ears, whale ahoge, headband, blue eyes, round face, navy-white fully covered frilly maid dress and whale apron emblem, white stockings, dark shoes, whale tail, anime cel-shaded lineart and colors. Preserve same full-body scale, pixel alignment, canvas dimensions and transparent margins. Walking animation frame B, facing front with a slight lean toward the viewer's left. Her RIGHT foot now steps forward and her left foot is slightly back, arms gently swinging in opposite directions. Keep exact head size, character height, face, maid costume, hair and whale tail. A tiny lively chibi walking step. Whole body and feet visible. Single centered full-body character only, genuine transparent alpha, no text, no symbols, no background, no painted checkerboard."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="蓝鲸鱼鱼 · 开心撒花">
+  <defs><radialGradient id="body" cx="34%" cy="24%" r="85%"><stop stop-color="#96dcff"/><stop offset=".48" stop-color="#5cafff"/><stop offset="1" stop-color="#3675df"/></radialGradient><linearGradient id="belly" x2="0" y2="1"><stop stop-color="#fffef7"/><stop offset="1" stop-color="#dff4ff"/></linearGradient></defs>
+  <ellipse cx="97" cy="187" rx="59" ry="7" fill="#1e4779" opacity=".18"/>
+  <g stroke="#306ac4" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M150 143q17 2 24-16q-14-10-8-29q16 1 20 19q6-12 12-11q2 23-16 28q-7 23-27 25" fill="#65b5ff"/>
+    <ellipse cx="72" cy="179" rx="14" ry="8" fill="#4b91e9" transform="rotate(-9 72 179)"/><ellipse cx="119" cy="179" rx="14" ry="8" fill="#4b91e9" transform="rotate(9 119 179)"/>
+    <path d="M24 111C20 73 39 46 74 43q12-15 24-11q-6 5-7 10c41-3 71 21 74 59c4 43-21 76-69 77c-45 1-70-24-72-67Z" fill="url(#body)"/>
+  </g>
+  <path d="M38 123c5-14 18-14 29-10q25 10 52-1c18-7 30 0 31 16c-3 30-21 43-54 44c-32 0-52-15-58-49Z" fill="url(#belly)"/>
+  <path d="M42 74q8-18 29-21" fill="none" stroke="#ddf5ff" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+  <path d="M61 103q9 -16 18 0m26 0q9 -16 18 0" fill="none" stroke="#173d70" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="46" cy="119" rx="12" ry="7" fill="#ffabc4" opacity=".85"/><ellipse cx="139" cy="119" rx="12" ry="7" fill="#ffabc4" opacity=".85"/>
+  <path d="M81 119q12-5 25 0q-2 22-13 22t-12-22" fill="#173d70"/><path d="M85 133q9-7 17 0q-9 11-17 0" fill="#ff92ad"/>
+  <path d="M28 130q-18-5-18 7q0 12 23 15" fill="#73c0ff" stroke="#306ac4" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M156 130q18-5 18 7q0 12-23 15" fill="#73c0ff" stroke="#306ac4" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M66 150q28 11 55-1l-2 10q-25 9-50 0Z" fill="#ffbd72"/><path d="m111 156 14 3-3 16-12-6Z" fill="#ffb067"/>
+  <path d="m137 31 4-9 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7Z" fill="#ffd36b" stroke="#d99b32" stroke-width="1.5"/><path d="M30 67c-16-13-24 7 0 18c24-11 16-31 0-18" fill="#ff9bb9"/><path d="m165 118 3-7 3 7 8 1-6 5 2 8-7-4-6 4 1-8-5-5Z" fill="#ffd36b"/>
+  </svg>
